@@ -17,3 +17,5 @@ echo "Setgid files:"
 echo "============="
 find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
 echo ""
+find / -type f -exec ls -lh --block-size=M {} 2>/dev/null \; | sort -hr -k5 |head
+echo ""
