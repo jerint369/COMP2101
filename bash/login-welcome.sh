@@ -13,17 +13,13 @@
 # Variables   #
 ###############
 title="Overlord"
-myname="jerin"
+myname=$USER
 hostname=$(hostname)
-h="Welcome to planet $hostname,$title $myname"
-# Welcome to planet  $hostname, "$title $myname!"
+
 ###############
-# Main        #)
+# Main        #
 ###############
-echo $h
-cat <<EOF
 
 
-
-
-EOF
+welcome="Welcome to planet $hostname, $title $myname! It is $(date "+%I:%M%p") on $(date "+%A")"
+cowsay -f moose $welcome

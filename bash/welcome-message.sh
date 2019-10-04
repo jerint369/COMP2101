@@ -13,7 +13,7 @@
 # Variables   #
 ###############
 title="Overlord"
-myname="jerin"
+myname="Jerin"
 hostname=$(hostname)
 
 ###############
@@ -22,6 +22,6 @@ hostname=$(hostname)
 cat <<EOF
 
 Welcome to planet $hostname, "$title $myname!"
-time
+$date
 
 EOF
