@@ -26,3 +26,6 @@ echo "
 Rolling...
  Rolling a 20 sided   dice:  $(( RANDOM % 20 + 1)) rolled
 "
+if [[ $interface = lo* ]] ; then
+  continue ;
+fi

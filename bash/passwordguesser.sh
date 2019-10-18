@@ -28,5 +28,8 @@ else
   echo "Wrong Password"
 fi
 i=$[$i-1]
-done
+if  [ $i = 0 ]
+then
 echo "The password eludes you..."
+fi
+done

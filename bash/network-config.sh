@@ -31,28 +31,35 @@
 # this command is ugly done this way, so generating the output data into variables is recommended to make the script more readable.
 # e.g.
 #   interface_name=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
-#
-my_host_name=$(hostname)
-lan_address=$(ip a s "$(ip a |awk '/: e/{gsub(/:/,"");print $2}')" |awk '/inet /{gsub(/\/.*/,"");print $2}')
-lan_host_name=$(getent hosts "$(ip a s "$(ip a |awk '/: e/{gsub(/:/,"");print $2}')" |awk '/inet /{gsub(/\/.*/,"");print $2}')" | awk '{print $2}' )
-external_IP=$(curl -s icanhazip.com)
-external_name=$(getent hosts "$(curl -s icanhazip.com)" | awk '{print $2}')
 
-router_address=$(ip r | grep default | awk '{print $3}')
-router_name=$(getent hosts "$(ip r | grep default |awk '{print $3}')" | awk '{print $2}')
-network_address=$(getent networks "$(ip a | awk '/: e/{gsub(/:/,"");print $2}')" | awk '{print $2}' )
+#cat <<EOF
+#Hostname        : $(hostname)
+#LAN Address     : $(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
+#LAN Hostname    : $(getent hosts $(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}'))|awk '/inet /{gsub(/\/.*/,"");print $2}' | awk '{print $2}')
+#External IP     : $(curl -s icanhazip.com)
+#External Name   : $(getent hosts $(curl -s icanhazip.com) | awk '{print $2}')
+#EOF
 
-network_name=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
+#===================Modified Script=======================#
+myhostname=$(hostname)
+interfacename=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
+lanipaddress=$(ip a s $interfacename|awk '/inet /{gsub(/\/.*/,"");print $2}')
+lanhostname=$(getent hosts $lanipaddress | awk '{print $2}')
+externalip=$(curl -s icanhazip.com)
+routeraddress=$(ip route | grep 'default'| awk '{print $3}')
+routerhostname=$(getent hosts $routeraddress | awk '{print $2}')
+networknumber=$(route -n |awk '/255.255.255.0/''{print $1}')
+networkname=$(getent networks $networknumber | awk '{print $1}')
 
+#******************  CONFIGURING ************************
 cat <<EOF
-Hostname        : $my_host_name
-LAN address     : $lan_address
-LAN hostname    : $lan_host_name
-External IP     : $external_IP
-External name   : $external_name
+Hostname        : $myhostname
+LAN Address     : $lanipaddress
+LAN Hostname    : $lanhostname
+External IP     : $externalip
+Router Address  : $routeraddress
+Router Hostname : $routerhostname
+Network Number  : $networknumber
+Network Name    : $networkname
 
-Router address  : $router_address
-Router hostname : $router_name
-Network address : $network_address
-Network name    : $network_name
 EOF

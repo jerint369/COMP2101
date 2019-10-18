@@ -21,5 +21,5 @@ hostname=$(hostname)
 ###############
 
 
-welcome="Welcome to planet $hostname, $title $myname! It is $(date "+%I:%M%p") on $(date "+%A")"
-cowsay -f moose $welcome
+variable="Welcome to planet $hostname, $title $myname! It is $(date "+%I:%M %p %A") "
+cowsay -f dragon $variable
